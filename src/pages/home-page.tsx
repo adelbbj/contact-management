@@ -6,8 +6,10 @@ export const HomePage: React.FC = () => {
     <main className="container mx-auto px-4 py-6 max-w-4xl">
       <h1 className="text-2xl font-bold mb-6 md:text-3xl">Contacts</h1>
 
-      <div>
-        <h2>All Contacts</h2>
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold mb-3 text-gray-700">
+          All Contacts
+        </h2>
         <ContactsList contacts={mockData} />
       </div>
     </main>
