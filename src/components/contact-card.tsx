@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Contact } from "../types";
-import { Avatar } from "./avatar";
+import { Avatar } from "./ui/avatar";
 
 export default function ContactCard({
   id,

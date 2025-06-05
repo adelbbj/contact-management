@@ -1,8 +1,8 @@
 import React from "react";
 import classNames from "classnames";
-import type { Size } from "../../types/size.type";
+import type { Size } from "../../../types/size.type";
 import type { AvatarProps } from "./avatar.types";
-import { IconUserProfile } from "../icons";
+import { IconUserProfile } from "../../icons";
 
 const sizeClasses: Record<Size, number> = {
   tiny: 40,
