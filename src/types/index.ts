@@ -12,6 +12,7 @@ export interface Contact {
   address: string | null;
   createdAt: number;
   updatedAt: number;
+  isFrequent?: boolean;
 }
 
 export interface ApiResponse {
