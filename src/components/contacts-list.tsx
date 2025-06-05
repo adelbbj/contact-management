@@ -11,7 +11,7 @@ export default function ContactsList({ contacts }: { contacts: Contact[] }) {
           first_name={contact.first_name}
           last_name={contact.last_name}
           phone={contact.phone}
-          // avatar={contact.avatar}
+          avatar={contact.avatar}
         />
       ))}
     </div>
