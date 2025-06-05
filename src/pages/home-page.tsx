@@ -1,9 +1,10 @@
 import ContactsList from "../components/contacts-list";
 import { FrequentContacts } from "../components/frequent-contacts-list";
+import { PageContainer } from "../components/ui/containers";
 
 export default function HomePage() {
   return (
-    <main className="container mx-auto px-4 py-6 max-w-4xl">
+    <PageContainer>
       <h1 className="text-2xl font-bold mb-6 md:text-3xl">Contacts</h1>
 
       <FrequentContacts
@@ -21,7 +22,7 @@ export default function HomePage() {
           root: "mt-6",
         }}
       />
-    </main>
+    </PageContainer>
   );
 }
 
