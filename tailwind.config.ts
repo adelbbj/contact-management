@@ -60,18 +60,10 @@ export const tailwindColors: ColorObject = {
 };
 
 const config: Config = {
-  // content: ["./src/app/**/*.{tsx}"],
   content: ["./src/**/*.tsx"],
   theme: {
-    // container: {
-    //   center: true,
-    // },
     extend: {
       colors: tailwindColors,
-
-      // backgroundImage: {
-      //   "hero-pattern": "url('/images/tile.svg')",
-      // },
     },
   },
   darkMode: "class",
