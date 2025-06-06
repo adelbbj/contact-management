@@ -19,7 +19,6 @@ export default function HomePage() {
       />
 
       <ContactsList
-        contacts={mockData}
         title="All Contacts"
         classes={{
           root: "mt-6",

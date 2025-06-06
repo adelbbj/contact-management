@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import type { Contact } from "../types";
-import ContactCard from "./contact-card";
+import { ContactCard } from "./features/contact-card";
 
 type FrequentContactsProps = {
   title?: string;
