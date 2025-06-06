@@ -2,6 +2,7 @@ import { RouterProvider } from "react-router-dom";
 import { routes } from "./routes";
 import { Suspense } from "react";
 import { Loading } from "./components/ui/loading";
+import { Providers } from "./components/providers";
 
 const CenteredLoading = () => (
   <div className="h-screen w-screen flex items-center justify-center">
@@ -11,9 +12,11 @@ const CenteredLoading = () => (
 
 function App() {
   return (
-    <Suspense fallback={<CenteredLoading />}>
-      <RouterProvider router={routes} />
-    </Suspense>
+    <Providers>
+      <Suspense fallback={<CenteredLoading />}>
+        <RouterProvider router={routes} />
+      </Suspense>
+    </Providers>
   );
 }
 
