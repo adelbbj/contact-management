@@ -1,5 +1,5 @@
 import { IconSearch } from "@/components/icons";
-import type { SearchInputProps } from "./search-bar-types";
+import type { SearchInputProps } from "./search-bar.types";
 
 export function SearchInput({
   value,
