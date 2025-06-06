@@ -20,18 +20,26 @@ export interface ApiResponse {
     skipped: number;
     limit: number;
     total: number;
-    criteria: Record<string, unknown>;
+    criteria: Record<string, any>;
   };
   items: Contact[];
 }
 
-export interface SearchFilters {
-  first_name?: string;
-  last_name?: string;
-  phone?: string;
+export interface SearchCriteria {
+  first_name?: { contains: string };
+  last_name?: { contains: string };
+  phone?: { contains: string };
 }
 
-export interface Pagination {
-  skip: number;
-  limit: number;
+export interface ApiParams {
+  limit?: number;
+  skip?: number;
+  where?: Record<string, any>;
+  sort?: string;
+}
+
+export interface ApiError {
+  message: string;
+  status?: number;
+  data?: any;
 }
