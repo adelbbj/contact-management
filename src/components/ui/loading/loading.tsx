@@ -9,16 +9,14 @@ const sizeClasses: Record<Size, string> = {
   large: "loading-lg",
 };
 
-export const Loading: React.FC<LoadingProps> = ({
+export const Loading: React.FC<Omit<LoadingProps, "variant">> = ({
   type = "spinner",
-  variant,
   size = "normal",
   className,
-}: LoadingProps) => {
+}) => {
   const classes = classNames("loading", className, {
     [`loading-${type}`]: type,
     [`${sizeClasses[size]}`]: size,
-    [`loading-${variant}`]: variant,
   });
 
   return <span className={classes} />;
