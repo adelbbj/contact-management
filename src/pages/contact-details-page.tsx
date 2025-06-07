@@ -4,16 +4,22 @@ import { PageContainer } from "../components/ui/containers";
 import { Link, useParams } from "react-router-dom";
 import { useContact } from "@/lib/hooks";
 import { ErrorMessage } from "@/components/ui/error-message";
+import { ContactDetailsSkeleton } from "@/components/features/contact-detail";
 
 const ContactDetailsPage: React.FC = () => {
   const { id } = useParams();
 
   const {
     data: contact,
+    isLoading,
     isError,
     error,
     refetch,
   } = useContact(Number.parseInt(id!));
+
+  if (isLoading) {
+    return <ContactDetailsSkeleton />;
+  }
 
   if (isError || !contact) {
     return (
