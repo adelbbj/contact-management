@@ -1,21 +1,18 @@
 import classNames from "classnames";
-import type { Contact } from "../types";
 import { ContactCard } from "./features/contact-card";
+import { useFrequentContacts } from "@/lib/hooks";
 
 type FrequentContactsProps = {
   title?: string;
-  contacts: Contact[];
   classes?: {
     root?: string;
   };
 };
 
-export function FrequentContacts({
-  contacts,
-  title,
-  classes,
-}: FrequentContactsProps) {
-  if (contacts.length === 0) {
+export function FrequentContacts({ title, classes }: FrequentContactsProps) {
+  const { frequentContacts } = useFrequentContacts();
+
+  if (frequentContacts.length === 0) {
     return null;
   }
 
@@ -25,7 +22,7 @@ export function FrequentContacts({
         <h2 className="text-lg font-semibold mb-3 text-gray-700">{title}</h2>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {contacts.map((contact) => (
+        {frequentContacts.map((contact) => (
           <ContactCard
             key={contact.id}
             id={contact.id}
