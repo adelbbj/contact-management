@@ -6,6 +6,7 @@ import { useInfiniteScroll } from "@/lib/hooks";
 import type { Contact } from "@/types";
 import { ContactCard, ContactCardSkeleton } from "./features/contact-card";
 import classNames from "classnames";
+import { ErrorMessage } from "./ui/error-message";
 
 type ContactsListProps = {
   searchQuery?: string;
@@ -29,13 +30,13 @@ export default function ContactsList({
 
   const {
     data,
-    // error,
+    error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    // isError,
-    // refetch,
+    isError,
+    refetch,
   } = activeQuery;
 
   const { setLastElement } = useInfiniteScroll({
@@ -53,6 +54,18 @@ export default function ContactsList({
           <ContactCardSkeleton key={i} />
         ))}
       </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <ErrorMessage
+        title="Failed to load contacts"
+        message={
+          error?.message || "Unable to fetch contacts. Please try again."
+        }
+        onRetry={() => refetch()}
+      />
     );
   }
 
