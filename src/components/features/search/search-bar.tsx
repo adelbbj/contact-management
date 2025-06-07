@@ -9,9 +9,8 @@ export const SearchBar: FC<SearchBarProps> = ({
   placeholder = "Search...",
 }) => {
   const [query, setQuery] = React.useState("");
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 700);
 
-  // Call onSearch when debounced query changes
   React.useEffect(() => {
     onSearch(debouncedQuery);
   }, [debouncedQuery, onSearch]);

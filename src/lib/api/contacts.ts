@@ -34,11 +34,9 @@ export const contactsApi = {
     }
 
     const where = {
-      $or: [
-        { first_name: { contains: query } },
-        { last_name: { contains: query } },
-        { phone: { contains: query } },
-      ],
+      first_name: { contains: query },
+      // last_name: { contains: query },
+      // phone: { contains: query },
     };
 
     return contactsApi.getContacts({
