@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Avatar } from "../components/ui/avatar";
 import { PageContainer } from "../components/ui/containers";
 import { Link, useParams } from "react-router-dom";
-import { useContact } from "@/lib/hooks";
+import { useContact, useFrequentContacts } from "@/lib/hooks";
 import { ErrorMessage } from "@/components/ui/error-message";
 import { ContactDetailsSkeleton } from "@/components/features/contact-detail";
 
 const ContactDetailsPage: React.FC = () => {
   const { id } = useParams();
+  const { addToFrequent } = useFrequentContacts();
+  const hasRecordedVisit = useRef(false);
 
   const {
     data: contact,
@@ -16,6 +18,17 @@ const ContactDetailsPage: React.FC = () => {
     error,
     refetch,
   } = useContact(Number.parseInt(id!));
+
+  useEffect(() => {
+    if (contact && !hasRecordedVisit.current) {
+      addToFrequent(contact);
+      hasRecordedVisit.current = true;
+    }
+  }, [contact, addToFrequent]);
+
+  useEffect(() => {
+    hasRecordedVisit.current = false;
+  }, [id]);
 
   if (isLoading) {
     return <ContactDetailsSkeleton />;
