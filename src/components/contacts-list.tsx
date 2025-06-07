@@ -1,9 +1,8 @@
-import { useEffect } from "react";
 import {
   useInfiniteContacts,
   useInfiniteSearchContacts,
 } from "@/lib/hooks/use-contacts";
-import { useIntersectionObserver } from "@/lib/hooks";
+import { useInfiniteScroll } from "@/lib/hooks";
 import type { Contact } from "@/types";
 import { ContactCard, ContactCardSkeleton } from "./features/contact-card";
 import classNames from "classnames";
@@ -21,12 +20,6 @@ export default function ContactsList({
   title,
   classes,
 }: ContactsListProps) {
-  const { ref: loadMoreRef, isIntersecting } = useIntersectionObserver({
-    threshold: 0.3,
-    rootMargin: "100px",
-  });
-
-  // Use search query if provided, otherwise get all contacts
   const isSearching = searchQuery.trim().length >= 2;
 
   const contactsQuery = useInfiniteContacts({ limit: 50 });
@@ -45,15 +38,11 @@ export default function ContactsList({
     // refetch,
   } = activeQuery;
 
-  // Load more when intersection observer triggers
-  useEffect(() => {
-    console.log(isIntersecting, hasNextPage, !isFetchingNextPage);
-    if (isIntersecting && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const { setLastElement } = useInfiniteScroll({
+    hasMore: hasNextPage,
+    onLoadMore: () => !isFetchingNextPage && fetchNextPage(),
+  });
 
-  // Flatten all pages into single array
   const contacts = data?.pages.flatMap((page) => page.items) ?? [];
   const totalCount = data?.pages[0]?.meta.total ?? 0;
 
@@ -100,20 +89,9 @@ export default function ContactsList({
         ))}
       </div>
 
-      {/* Load more trigger */}
-      {hasNextPage && (
-        <div ref={loadMoreRef} className="flex justify-center py-4 bg-red">
-          {isFetchingNextPage ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-              {[...Array(2)].map((_, i) => (
-                <ContactCardSkeleton key={i} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-sm text-gray-500">Scroll to load more...</div>
-          )}
-        </div>
-      )}
+      <div ref={setLastElement} />
+      {isFetchingNextPage && <p>Loading...</p>}
+      {!hasNextPage && <p>No more results</p>}
     </div>
   );
 }

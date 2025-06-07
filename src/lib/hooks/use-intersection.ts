@@ -1,34 +1,42 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useCallback } from "react";
 
-type UseIntersectionObserverProps = {
+type Props = {
+  hasMore: boolean;
+  onLoadMore: () => void;
   threshold?: number;
   rootMargin?: string;
 };
 
-export function useIntersectionObserver({
+export const useInfiniteScroll = ({
+  hasMore,
+  onLoadMore,
   threshold = 0.1,
-  rootMargin = "0px",
-}: UseIntersectionObserverProps = {}) {
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  rootMargin = "200px",
+}: Props) => {
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
+  const setLastElement = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (observerRef.current) observerRef.current.disconnect();
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsIntersecting(entry.isIntersecting);
-      },
-      { threshold, rootMargin }
-    );
+      if (node && hasMore) {
+        observerRef.current = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              onLoadMore();
+            }
+          },
+          { threshold, rootMargin }
+        );
+        observerRef.current.observe(node);
+      }
 
-    observer.observe(element);
+      lastElementRef.current = node;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [hasMore, onLoadMore, threshold]
+  );
 
-    return () => {
-      observer.unobserve(element);
-    };
-  }, [threshold, rootMargin]);
-
-  return { ref, isIntersecting };
-}
+  return { setLastElement };
+};
